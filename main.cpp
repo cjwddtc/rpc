@@ -119,15 +119,15 @@ public:
 #endif
 
 
-double test1(char ch, std::string str) {
+double remote_test1(char ch, std::string str) {
     return 0;
 }
 
-std::string test2(std::vector<int> arr) {
+std::string remote_test2(std::vector<int> arr) {
     return std::string();
 }
 
-long test3(std::vector<std::string> arr) {
+long remote_test3(std::vector<std::string> arr) {
     return 0;
 }
 
