@@ -1,2 +1,4 @@
-#define DECLARE_FUNC(...)
-#include "api.h"
+int zxc();
+int main(){
+    zxc();
+}
