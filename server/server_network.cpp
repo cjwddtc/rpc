@@ -8,10 +8,9 @@
 #include <boost/asio/write.hpp>
 #include <cstdio>
 #include <sstream>
-#include <boost/archive/text_oarchive.hpp>
-#include <boost/archive/text_iarchive.hpp>
 #include "rpc_api.h"
 #include "common/shared_type.h"
+#include "server_api.h"
 using boost::asio::ip::tcp;
 using boost::asio::awaitable;
 using boost::asio::co_spawn;

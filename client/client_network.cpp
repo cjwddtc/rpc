@@ -1,15 +1,13 @@
 
-#include <boost/asio/co_spawn.hpp>
 #include <boost/asio/detached.hpp>
 #include <boost/asio/io_context.hpp>
 #include <boost/asio/ip/tcp.hpp>
-#include <boost/asio/signal_set.hpp>
-#include <boost/serialization/serialization.hpp>
 #include <boost/asio/write.hpp>
 #include <boost/preprocessor.hpp>
 #include "common/shared_type.h"
 #include "common/rpc_serialized.h"
 #include "common/rpc_enum.h"
+#include "common/api.h"
 using boost::asio::ip::tcp;
 using boost::asio::detached;
 struct DcmmHandle;

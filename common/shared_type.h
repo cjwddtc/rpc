@@ -1,10 +1,6 @@
 #ifndef MAIN_SHARED_TYPE_H
 #define MAIN_SHARED_TYPE_H
-#include <string>
-#include <vector>
-#include <boost/archive/text_oarchive.hpp>
-#include <boost/archive/text_iarchive.hpp>
-#include "api.h"
+#include <stdint.h>
 struct rpc_request_header{
     uint64_t version;
     uint64_t module_id;
