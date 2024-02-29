@@ -4,9 +4,9 @@
 #include <vector>
 #include <string>
 #include <map>
-#include "shared_type.h"
+#include "common/shared_type.h"
 
-#include "server_api.h"
+#include "server/server_api.h"
 
 int main(){
     auto handle=start_server();
