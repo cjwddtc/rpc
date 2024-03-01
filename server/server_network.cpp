@@ -1,25 +1,31 @@
 #include <thread>
 #include <boost/asio/co_spawn.hpp>
 #include <boost/asio/detached.hpp>
+
 #include <boost/asio/io_context.hpp>
 #include <thread>
 #include <boost/asio/ip/tcp.hpp>
-#include <boost/asio/signal_set.hpp>
 #include <boost/asio/write.hpp>
 #include <cstdio>
 #include <sstream>
 #include "rpc_api.h"
 #include "common/shared_type.h"
 #include "server_api.h"
+#include <future>
 using boost::asio::ip::tcp;
 using boost::asio::awaitable;
 using boost::asio::co_spawn;
 using boost::asio::detached;
 using boost::asio::use_awaitable;
 namespace this_coro = boost::asio::this_coro;
+awaitable<void> test() {
+    sleep(1);
+    co_return ;
+}
 class RpcNetworkManager {
     std::thread m_thr;
     boost::asio::io_context m_io_context;
+    boost::asio::io_context m_work_context;
 
     awaitable<void> echo_once(tcp::socket &socket) {
         uint64_t ret;
@@ -30,8 +36,7 @@ class RpcNetworkManager {
             co_await socket.async_receive(boost::asio::buffer(&header, sizeof(header)), use_awaitable);
             buffer.resize(header.content_size);
             co_await socket.async_receive(boost::asio::buffer(buffer), use_awaitable);
-
-            ret=rpc_api_call(header.module_id,header.command,buffer.data());
+            ret=co_await rpc_api_call(header.module_id,header.command,buffer.data());
 
         }
         {
@@ -62,11 +67,12 @@ class RpcNetworkManager {
         }
     }
 public:
-    RpcNetworkManager() : m_io_context{1} {
+    RpcNetworkManager() : m_io_context{1},m_work_context(1) {
         co_spawn(m_io_context, listener(), detached);
         std::thread{[this](){
             m_io_context.run();
         }}.swap(m_thr);
+
     }
 
     ~RpcNetworkManager() {

@@ -1,6 +1,6 @@
 #include "common/api.h"
 #include "stdio.h"
-int main(){
+int asd(){
         DcmmHandle *handle;
     createHandle(&handle);
 
@@ -11,6 +11,20 @@ int main(){
 
         auto ret=test3(handle,"qwe");
         printf("asd,%d\n",ret);
+
     destroyHandle(&handle);
         return 0;
+}
+#include <thread>
+#include <vector>
+int main(){
+    std::vector<std::thread> thr;
+    thr.emplace_back(asd);
+    sleep(1);
+    thr.emplace_back(asd);
+    sleep(1);
+    thr.emplace_back(asd);
+    for(auto &a:thr){
+        a.join();
+    }
 }
