@@ -8,6 +8,7 @@
 #include "common/rpc_serialized.h"
 #include "common/rpc_enum.h"
 #include "common/api.h"
+#include <initializer_list>
 using boost::asio::ip::tcp;
 using boost::asio::detached;
 struct DcmmHandle;
@@ -25,7 +26,7 @@ public:
     dcmmReturn_t callWithArg(uint64_t module_id,uint64_t command_id,dcmmReturn_t(*)(DcmmHandle *,ARG...) ,ARG...arg) {
         rpc_serialized::CommonObuffer buf;
         {
-            nothing((rpc_serialized::serialized(buf, arg), 0)...);
+            std::initializer_list<int>{(rpc_serialized::serialized(buf, arg), 0)...};
             rpc_request_header header{0, module_id, command_id, buf.size()};
             m_socket.write_some(boost::asio::buffer(&header, sizeof(header)));
             m_socket.write_some(boost::asio::buffer(buf));
